@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "463534556397",
+    "project_id": "hospital-af872",
+    "storage_bucket": "hospital-af872.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:463534556397:android:6bb251b8c2c242207678e4",
+        "android_client_info": {
+          "package_name": "com.dongjin.hospitalapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "463534556397-cf49polt88av3k2lm6qbd5vi4i31v28c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dongjin.hospitalapp",
+            "certificate_hash": "2f41ee617031239bc2cb4aac22c7818c4383c270"
+          }
+        },
+        {
+          "client_id": "463534556397-5h2bc051ndovpf3633hh034tni6tanv3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBasHNL4DsbkTQK5n9dyU_O3_FNH-7Qgoc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "463534556397-5h2bc051ndovpf3633hh034tni6tanv3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
