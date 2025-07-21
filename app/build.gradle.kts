@@ -46,6 +46,17 @@ android {
 
 dependencies {
 
+	// 네이버지도 SDK (최신 버전)
+	implementation("com.naver.maps:map-sdk:3.18.0") {
+		exclude(group = "com.android.support")
+	}
+	implementation("com.google.android.gms:play-services-location:21.0.1") {
+		exclude(group = "com.android.support")
+	}
+	
+	// RecyclerView (네이버지도 layoutManager 오류 해결)
+	implementation("androidx.recyclerview:recyclerview:1.3.2")
+
 	implementation ("com.opencsv:opencsv:5.7.1")
 	implementation ("com.google.firebase:firebase-storage-ktx:21.0.2")
 	implementation ("com.squareup.retrofit2:converter-simplexml:2.9.0")

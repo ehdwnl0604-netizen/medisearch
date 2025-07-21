@@ -16,6 +16,13 @@ dependencyResolutionManagement {
 	repositories {
 		google()
 		mavenCentral()
+		// 네이버지도 SDK repository (복수 URL 시도)
+		maven {
+			url = uri("https://repository.map.naver.com/archive/maven")
+		}
+		maven {
+			url = uri("https://naver.jfrog.io/artifactory/maven/")
+		}
 	}
 }
 

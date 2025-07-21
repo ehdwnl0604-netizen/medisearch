@@ -20,6 +20,7 @@ import com.dongjin.hospitalapp.ui.screen.signup.SignUpScreen
 import com.dongjin.hospitalapp.ui.screen.hospital.HospitalDetailScreen
 import com.dongjin.hospitalapp.ui.screen.hospital.HospitalListScreen
 import com.dongjin.hospitalapp.ui.screen.hospital.HospitalSearchFilterScreen
+import com.dongjin.hospitalapp.ui.screen.hospital.NearbyHospitalMapScreen
 import com.dongjin.hospitalapp.ui.screen.login.LoginSelectionScreen
 import com.dongjin.hospitalapp.ui.screen.product.ProductPurchaseScreen
 import com.dongjin.hospitalapp.ui.screen.product.NaverShoppingWebViewScreen
@@ -63,6 +64,10 @@ fun AppNavHost(navController: NavHostController) {
 			hospital?.let {
 				HospitalDetailScreen(navController = navController, hospital = it)
 			}
+		}
+
+		composable("nearbyHospitalMap") {
+			NearbyHospitalMapScreen(navController = navController)
 		}
 
 		// 질환정보

@@ -27,6 +27,9 @@ class HospitalViewModel @Inject constructor(
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading
 
+    private val _hospitals = MutableStateFlow<List<Hospital>>(emptyList())
+    val hospitals: StateFlow<List<Hospital>> = _hospitals
+
     private var lastQueryKey: String? = null  // ✅ 중복 쿼리 방지 키
     fun fetchHospitals(
         name: String,
@@ -90,5 +93,25 @@ class HospitalViewModel @Inject constructor(
         Log.d("HospitalFetch", "🔄 병원 리스트 초기화 요청")
         _hospitalList.value = emptyList()
         lastQueryKey = null
+    }
+
+    fun fetchAllHospitals() {
+        viewModelScope.launch {
+            Log.d("HospitalFetch", "✅ 전체 병원 데이터 가져오기 시작")
+            _isLoading.value = true
+
+            firestore.collection("hospitals")
+                .get()
+                .addOnSuccessListener { snapshot ->
+                    Log.d("HospitalFetch", "📦 전체 문서 수신: ${snapshot.size()}개")
+                    val result = snapshot.documents.mapNotNull { it.toObject(Hospital::class.java) }
+                    _hospitals.value = result
+                    _isLoading.value = false
+                }
+                .addOnFailureListener { e ->
+                    Log.e("HospitalFetch", "❌ 전체 병원 데이터 가져오기 실패", e)
+                    _isLoading.value = false
+                }
+        }
     }
 }

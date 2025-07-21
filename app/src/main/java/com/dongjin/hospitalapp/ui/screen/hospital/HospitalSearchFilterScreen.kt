@@ -107,6 +107,18 @@ fun HospitalSearchFilterScreen(
 
 			Button(
 				onClick = {
+					navController.navigate("nearbyHospitalMap")
+				},
+				modifier = Modifier.fillMaxWidth(),
+				colors = ButtonDefaults.buttonColors(
+					containerColor = MaterialTheme.colorScheme.primary
+				)
+			) {
+				Text("내 주변 병원찾기")
+			}
+
+			Button(
+				onClick = {
 					val nameParam = URLEncoder.encode(searchText, "utf-8")
 					val diseaseParam = HospitalCodeMapper.getDepartmentCodes(selectedDiseases).joinToString(",")
 					val typeParam = HospitalCodeMapper.getHospitalTypeCodes(selectedHospitalTypes).joinToString(",")
