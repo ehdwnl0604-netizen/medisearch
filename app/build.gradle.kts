@@ -47,7 +47,7 @@ android {
 dependencies {
 
 	// 네이버지도 SDK (최신 버전)
-	implementation("com.naver.maps:map-sdk:3.18.0") {
+	implementation("com.naver.maps:map-sdk:3.22.0") {
 		exclude(group = "com.android.support")
 	}
 	implementation("com.google.android.gms:play-services-location:21.0.1") {

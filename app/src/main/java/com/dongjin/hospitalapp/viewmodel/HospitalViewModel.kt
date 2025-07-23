@@ -100,18 +100,92 @@ class HospitalViewModel @Inject constructor(
             Log.d("HospitalFetch", "✅ 전체 병원 데이터 가져오기 시작")
             _isLoading.value = true
 
+            // Firebase 연결 상태 확인
+            Log.d("HospitalFetch", "🔗 Firebase 인스턴스: ${firestore}")
+            Log.d("HospitalFetch", "🏥 컬렉션 참조: ${firestore.collection("hospitals")}")
+
             firestore.collection("hospitals")
                 .get()
                 .addOnSuccessListener { snapshot ->
                     Log.d("HospitalFetch", "📦 전체 문서 수신: ${snapshot.size()}개")
-                    val result = snapshot.documents.mapNotNull { it.toObject(Hospital::class.java) }
+                    
+                    // 각 문서의 상세 정보 로그
+                    snapshot.documents.forEachIndexed { index, document ->
+                        Log.d("HospitalFetch", "📄 문서 [$index]: ${document.id}")
+                        Log.d("HospitalFetch", "📄 문서 데이터: ${document.data}")
+                    }
+                    
+                    val result = snapshot.documents.mapNotNull { document ->
+                        try {
+                            val hospital = document.toObject(Hospital::class.java)
+                            if (hospital == null) {
+                                Log.w("HospitalFetch", "⚠️ null 변환: ${document.id}")
+                            } else {
+                                Log.d("HospitalFetch", "✅ 병원 파싱: ${hospital.name} (${hospital.latitude}, ${hospital.longitude})")
+                            }
+                            hospital
+                        } catch (e: Exception) {
+                            Log.e("HospitalFetch", "❌ 문서 파싱 실패: ${document.id} - ${e.message}")
+                            null
+                        }
+                    }
+                    
+                    Log.d("HospitalFetch", "🏥 최종 파싱된 병원 수: ${result.size}")
+                    result.forEach { hospital ->
+                        Log.d("HospitalFetch", "📍 ${hospital.name}: (${hospital.latitude}, ${hospital.longitude})")
+                    }
+                    
                     _hospitals.value = result
                     _isLoading.value = false
                 }
                 .addOnFailureListener { e ->
                     Log.e("HospitalFetch", "❌ 전체 병원 데이터 가져오기 실패", e)
+                    Log.e("HospitalFetch", "❌ 에러 타입: ${e.javaClass.simpleName}")
+                    Log.e("HospitalFetch", "❌ 에러 메시지: ${e.message}")
+                    Log.e("HospitalFetch", "❌ 스택 트레이스: ${e.stackTraceToString()}")
                     _isLoading.value = false
                 }
         }
     }
+    
+    /**
+     * 병원 좌표 업데이트 (지오코딩)
+     */
+    fun updateHospitalCoordinates() {
+        viewModelScope.launch {
+            _isLoading.value = true
+            Log.d("HospitalViewModel", "🗺️ 병원 좌표 업데이트 시작")
+            
+            try {
+                val updatedHospitals = repository.updateHospitalCoordinates()
+                _hospitals.value = updatedHospitals
+                Log.d("HospitalViewModel", "✅ 병원 좌표 업데이트 완료")
+            } catch (e: Exception) {
+                Log.e("HospitalViewModel", "❌ 병원 좌표 업데이트 실패: ${e.message}")
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+    
+    /**
+     * 사용자 위치 기준 근처 병원 가져오기
+     */
+    fun getNearbyHospitals(userLatitude: Double, userLongitude: Double, radiusKm: Double = 10.0) {
+        viewModelScope.launch {
+            _isLoading.value = true
+            
+            try {
+                val nearbyHospitals = repository.getNearbyHospitals(userLatitude, userLongitude, radiusKm)
+                _hospitals.value = nearbyHospitals
+                Log.d("HospitalViewModel", "✅ 근처 병원 ${nearbyHospitals.size}개 로드 완료")
+            } catch (e: Exception) {
+                Log.e("HospitalViewModel", "❌ 근처 병원 검색 실패: ${e.message}")
+                _hospitals.value = emptyList()
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+    
 }

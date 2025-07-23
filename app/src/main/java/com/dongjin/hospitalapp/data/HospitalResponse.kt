@@ -34,5 +34,7 @@ data class Hospital(
     val url: String? = null,         // 홈페이지
     val subject: String? = null,     // 진료과목 (ex. 재활의학과)
     val sido: String? = null,        // 시도명 (서울특별시 등)
-    val sggu: String? = null         // 시군구명 (강남구 등, 현재는 사용 안 함)
+    val sggu: String? = null,        // 시군구명 (강남구 등, 현재는 사용 안 함)
+    val latitude: Double? = null,    // 위도 (정확한 좌표)
+    val longitude: Double? = null    // 경도 (정확한 좌표)
 ): Parcelable

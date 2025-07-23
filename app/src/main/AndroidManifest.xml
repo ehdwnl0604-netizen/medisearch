@@ -19,10 +19,10 @@
         tools:targetApi="31"
         tools:replace="android:appComponentFactory"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory">
-        <!-- 네이버지도 Client ID -->
+        <!-- 네이버지도 NCP Key ID -->
         <meta-data
-            android:name="com.naver.maps.map.CLIENT_ID"
-            android:value="YOUR_NAVER_MAPS_CLIENT_ID_HERE" />
+            android:name="com.naver.maps.map.NCP_KEY_ID"
+            android:value="nstoqx5cfx" />
 
         <activity
             android:name=".MainActivity"

@@ -1,5 +1,6 @@
 package com.dongjin.hospitalapp.repository
 
+import com.dongjin.hospitalapp.data.GeocodingService
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
@@ -42,10 +43,17 @@ object RepositoryModule {
 
     @Provides
     @Singleton
+    fun provideGeocodingService(): GeocodingService {
+        return GeocodingService()
+    }
+
+    @Provides
+    @Singleton
     fun provideHospitalRepository(
-        firestore: FirebaseFirestore
+        firestore: FirebaseFirestore,
+        geocodingService: GeocodingService
     ): HospitalRepository {
-        return HospitalRepository(firestore)
+        return HospitalRepository(firestore, geocodingService)
     }
 
 }
